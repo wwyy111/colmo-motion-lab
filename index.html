@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>COLMO · 语义动效实验室</title><meta name="description" content="八种语义状态、两种视觉语言。预览、理解并编排 AI 交互。"><link rel="stylesheet" href="style.css"></head>
+<body><link rel="stylesheet" href="update.css">
+<header><a class="wordmark" href="#overview" aria-label="返回状态总览"><img src="assets/colmo-logo.png" alt="COLMO"></a><nav aria-label="页面"><a href="#overview" id="nav-overview">01 状态总览</a><a href="#studio" id="nav-studio">02 交互编排<span class="dot"></span></a></nav></header>
+<main>
+<section id="overview">
+ <div class="toolbar"><div class="segmented" aria-label="形象方向"><button data-style="line" class="active">Dynamic Line <small>边缘光效</small></button><button data-style="glass">Layered Glass <small>分层玻璃</small></button></div><div class="toolbar-right"><label class="check"><input type="checkbox" id="motion-toggle" checked> 动效预览</label><button id="restart-previews" class="quiet">重新播放 ↻</button></div></div>
+ <div class="state-grid" id="state-grid"></div>
+ <div class="overview-cta"><a class="primary" href="#studio">开始编排</a></div>
+</section>
+<section id="studio" hidden>
+ <div class="studio-title"><h1>交互编排</h1><div class="file-actions"><button id="sheet-open" class="primary">导入表格</button><button id="sheet-template">下载表格模板</button><button id="export">导出脚本</button><button id="import">导入脚本</button><input type="file" id="import-file" accept="application/json,.json" hidden><input type="file" id="sheet-file" accept=".xlsx,.xls,.csv" hidden></div></div>
+ <div class="studio-workspace">
+  <aside class="library"><div class="section-label">素材库 <span>拖入轨道 / 点击 ＋</span></div><div id="library"></div></aside>
+  <div class="preview-area"><div class="preview-top"><span id="current-kind">预览</span><div class="segmented compact"><button data-style="line">光效</button><button data-style="glass">玻璃</button></div></div><div class="stage"><canvas id="main-canvas" aria-label="当前语义动效预览"></canvas><div class="stage-caption"><span id="stage-badge"></span><p id="stage-text"></p></div></div><div class="transport"><button id="rewind" aria-label="返回开头">↤</button><button id="play" class="primary">播放序列</button><output id="timecode">00:00 / 00:00</output><select id="speed" aria-label="播放速度"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option></select><select id="mode" aria-label="播放模式"><option value="auto">定时演示</option><option value="interactive">交互演示</option></select></div><input id="scrubber" aria-label="播放位置" type="range" min="0" max="1" step="0.01" value="0"><div class="gate"><span id="play-hint">定时演示按片段时长推进；交互演示会等待用户事件。</span><button id="respond" hidden class="primary">模拟用户开始回答</button></div></div>
+  <aside class="inspector"><div class="section-label">片段设置 <span id="selected-index"></span></div><div id="inspector-content"></div></aside>
+ </div>
+ <div class="timeline-header"><div><h2>交互时间轴 <span id="clip-count"></span></h2><p>拖入状态并排序。每段下方展示它在这个情景中表达的含义。</p></div><div class="timeline-actions"><select id="preset" aria-label="加载案例"><option value="">载入案例…</option><option value="milk">空调 · 客厅调温</option><option value="wake">唤醒 · 方案草案</option></select><button id="clear">清空</button></div></div>
+ <div class="scenario"><label for="scenario">情景</label><input id="scenario" placeholder="写下这段交互发生的情景"></div>
+ <div class="timeline-scroll"><div id="timeline" class="timeline" aria-label="可排序交互时间轴"></div></div>
+ <div class="timeline-bottom"><span><i></i> 当前播放　<span class="selected-key">▢</span> 当前编辑</span><span id="save-status">仅保存在此浏览器，可导出备份</span></div>
+ <section class="narrative"><div class="section-label">整段交互描述 <button id="copy-narrative">复制文字</button></div><p id="narrative-text" aria-live="polite"></p><small>随时间轴与形象方向自动更新，依据已编排内容组织文字。</small></section>
+ <div class="studio-notes"><p><strong>等待按事件结束。</strong> 在交互演示中，「等待回应」等到“开始回答”，「聆听」等到“回答结束”；当前片段会继续循环，不会把动画结束当成用户已作答。</p><p><strong>示例不是真实设备能力承诺。</strong> 空调案例中的设备回执为演示设定；实际使用时，必须收到设备确认后才能表达“已设为 25℃”，这不代表室温已达到 25℃。</p></div>
+</section>
+</main><dialog id="sheet-dialog"><div class="section-label">导入表格 <button id="sheet-close">关闭</button></div><p>文件仅在本地读取。按文字规则生成草稿；请检查顺序与含义后导入。</p><div id="sheet-fields"></div><button id="sheet-match">重新匹配</button><p id="sheet-status" role="status"></p><div id="sheet-rows"></div><div class="import-actions"><label><input id="sheet-wrap" type="checkbox" checked> 添加入场与退场</label><select id="sheet-action"><option value="replace">替换当前时间轴</option><option value="append">追加到时间轴</option></select><button id="sheet-apply" class="primary">确认导入所选行</button></div></dialog><div id="toast" role="status" aria-live="polite"></div><script src="vendor/xlsx.full.min.js"></script><script src="app.js"></script><script src="importer.js"></script></body></html>
